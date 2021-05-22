@@ -1,0 +1,45 @@
+﻿<Window x:Class="PowerPointWPF.ImageSearch"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PowerPointWPF"
+        mc:Ignorable="d"
+        Title="ImageSearch" Height="450" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="6*"/>
+            <RowDefinition Height=".6*"/>
+        </Grid.RowDefinitions>
+
+        <ListBox x:Name="imageList" Grid.Row="0"/>
+        <!--
+        <ListBox Grid.Row = "0" ItemsSource = "{Binding Source=imageList}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <CheckBox Content = "{Binding Source=imageList[0]}"/>
+                    <Image Source = "{Binding Source=imageList[1]}"/>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        -->
+
+        <Label Grid.Row="1" Content="Select up to three images to be imported" HorizontalAlignment="Left" FontSize="17"/>
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="right">
+
+            <Button Name="Submit" 
+                Width="150" Margin="6,6,6,6"
+                Click="SubmitClick">
+                Submit
+            </Button>
+
+            <Button Name="Cancle" 
+                Width="150" Margin="6,6,6,6"
+                Click="CancleClick">
+                Cancle
+            </Button>
+
+        </StackPanel>
+    </Grid>
+</Window>
