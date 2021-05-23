@@ -7,6 +7,11 @@ using System.Text;
 using Microsoft.Office.Core;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
+using System.Windows.Documents;
+
+using System.Windows.Markup;
+
+
 
 // solution starting point:
 // https://stackoverflow.com/questions/26372020/how-to-programmatically-create-a-powerpoint-from-a-list-of-images
@@ -19,7 +24,7 @@ namespace PowerPointWPF
         private Microsoft.Office.Interop.PowerPoint.Application pptApplication;
         private Slides slides;
         private _Slide slide;
-        private TextRange objText;
+        private Microsoft.Office.Interop.PowerPoint.TextRange objText;
         private CustomLayout customLayout;
         public List<string> selected;
         private Presentation pptPresentation;
@@ -39,11 +44,17 @@ namespace PowerPointWPF
         {
             System.Windows.Documents.TextRange textRange = new System.Windows.Documents.TextRange
                 (
-                    Text.Document.ContentStart, // TextPointer to the start of content in the RichTextBox.          
-                    Text.Document.ContentEnd    // TextPointer to the end of content in the RichTextBox.
+                    TextBox.Document.ContentStart, // TextPointer to the start of content in the RichTextBox.          
+                    TextBox.Document.ContentEnd    // TextPointer to the end of content in the RichTextBox.
                 );
 
-            string convertedText = Regex.Replace(textRange.Text, "\\s+", "+");
+            System.Windows.Documents.TextRange titleRange = new System.Windows.Documents.TextRange
+                (
+                    TitleBox.Document.ContentStart,          
+                    TitleBox.Document.ContentEnd
+                );
+
+            string convertedText = Regex.Replace(textRange.Text, "\\s+", "+") + Regex.Replace(titleRange.Text, "\\s+", "+");
 
             ImageSearch newWindow = new ImageSearch(convertedText);
             newWindow.ShowDialog();
@@ -59,20 +70,29 @@ namespace PowerPointWPF
             // Add title
             objText = slide.Shapes[1].TextFrame.TextRange;
             System.Windows.Documents.TextRange titleRange = new System.Windows.Documents.TextRange
-            (
-                Title.Document.ContentStart, // TextPointer to the start of content in the RichTextBox.          
-                Title.Document.ContentEnd    // TextPointer to the end of content in the RichTextBox.
-            );
+                (TitleBox.Document.ContentStart, TitleBox.Document.ContentEnd);
             objText.Text = titleRange.Text;
 
             // Add text
             objText = slide.Shapes[2].TextFrame.TextRange;
             System.Windows.Documents.TextRange textRange = new System.Windows.Documents.TextRange
-            (
-                Text.Document.ContentStart, // TextPointer to the start of content in the RichTextBox.          
-                Text.Document.ContentEnd    // TextPointer to the end of content in the RichTextBox.
-            );
+                (TextBox.Document.ContentStart, TextBox.Document.ContentEnd);
             objText.Text = textRange.Text;
+
+
+
+            //System.Xml.XmlReader xmlReader = System.Xml.XmlReader.Create();
+
+            //FlowDocument flowDocument = (FlowDocument)XamlReader.Parse()
+            //RichTextBox rtb = new RichTextBox();
+            //rtb.Document = new System.Windows.Documents.TextRange(TextBox.Document.ContentStart, TextBox.Document.ContentEnd);
+
+            //FlowDocument flowdoc = new FlowDocument(TextBox.Document.Blocks.FirstBlock, TextBox.Document.Blocks.LastBlock);
+
+            //RichTextBox richTextBox;
+            //richTextBox = new RichTextBox
+            //richTextBox.SelectAll();
+            //string rtf = myRichtextBox.Rtf;
 
             int numPics = 0;
             if (selected != null)

@@ -17,17 +17,17 @@
 
         <Label Grid.Row="0" Content="Title:" FontWeight="Bold"/>
 
-        <RichTextBox Name="Title" Grid.Row="1" Margin="6,6,6,6">
+        <RichTextBox Name="TitleBox" Grid.Row="1" Margin="6,6,6,6">
             <FlowDocument>
                 <Paragraph>
-                    <Bold>Sample Title</Bold>
+                    <Bold>Fast cars</Bold>
                 </Paragraph>
             </FlowDocument>
         </RichTextBox>
 
         <Label Grid.Row="2" Content="Text:" FontWeight="Bold"/>
 
-        <RichTextBox Name="Text" Grid.Row="3" Margin="6,6,6,6">
+        <RichTextBox Name="TextBox" Grid.Row="3" Margin="6,6,6,6">
             <FlowDocument>
                 <Paragraph>
                     Fast red

@@ -15,7 +15,6 @@ namespace PowerPointWPF
     /// Interaction logic for ImageSearch.xaml
     /// </summary>
 
-
     // strongly typed object for json parsing, not currently utilized
     public class Thumbnail
     {
@@ -37,8 +36,8 @@ namespace PowerPointWPF
 
     public partial class ImageSearch : Window
     {
-        private string CX = "";
-        private string APIKEY = "";
+        private string CX = ""; // identifier of the Programmable Search Engine
+        private string APIKEY = ""; // API key
         private string text;
         private List<string> thumbnails;
         private List<string> selected;
@@ -51,19 +50,44 @@ namespace PowerPointWPF
         public ImageSearch(string text)
         {
             InitializeComponent();
-            string json;
 
-            var request = WebRequest.Create("https://www.googleapis.com/customsearch/v1?key=" + APIKEY + "&cx=" + CX + "&q=" + text);
-            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-            json = new StreamReader(response.GetResponseStream()).ReadToEnd();
-            JObject data = JObject.Parse(json);
+            string json1;
+            var request1 = WebRequest.Create("https://www.googleapis.com/customsearch/v1?key=" + APIKEY + "&cx=" + CX + "&q=" + text);
+            HttpWebResponse response1 = (HttpWebResponse)request1.GetResponse();
+            json1 = new StreamReader(response1.GetResponseStream()).ReadToEnd();
 
-            dynamic foo = JObject.Parse(json);
+            dynamic foo = JObject.Parse(json1);
             thumbnails = new List<string>();
 
-            for (int i = 0; i < 8; i++)
+            for (int i = 0; i < 9; i++)
             {
-                thumbnails.Add(foo.items[i].pagemap.cse_image[0].src.ToString());
+                try
+                {
+                    thumbnails.Add(foo.items[i].pagemap.cse_image[0].src.ToString());
+                } 
+                catch (Exception e)
+                {
+                    Console.WriteLine("cse_image not listed");
+                }
+            }
+
+            string json2;
+            var request2 = WebRequest.Create("https://www.googleapis.com/customsearch/v1?key=" + APIKEY + "&cx=" + CX + "&q=" + text + "&start=11");
+            HttpWebResponse response2 = (HttpWebResponse)request2.GetResponse();
+            json2 = new StreamReader(response2.GetResponseStream()).ReadToEnd();
+
+            dynamic foo2 = JObject.Parse(json2);
+
+            for (int i = 0; i < 9; i++)
+            {
+                try
+                {
+                    thumbnails.Add(foo2.items[i].pagemap.cse_image[0].src.ToString());
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("cse_image not listed");
+                }
             }
 
             imagePopulate();
@@ -73,19 +97,28 @@ namespace PowerPointWPF
         {
             for (int i = 0; i < thumbnails.Count; i++)
             {
-                BitmapImage original = new BitmapImage();
-                original.BeginInit();
-                original.UriSource = new Uri(thumbnails[i]);
-                original.DecodePixelWidth = 200;
-                original.EndInit();
+                try
+                {
+                    BitmapImage original = new BitmapImage();
+                    original.BeginInit();
 
-                Image final = new Image();
-                final.Source = original;
+                    original.UriSource = new Uri(thumbnails[i]);
 
-                //Object[] itemSelections = new Object[] { new System.Windows.Controls.CheckBox(), final };
-                //imageList.Items.Add(itemSelections);
-                imageList.Items.Add(final);
-                imageList.Items.Add(new CheckBox());
+                    original.DecodePixelHeight = 150;
+                    original.EndInit();
+
+                    Image final = new Image();
+                    final.Source = original;
+
+                    //Object[] itemSelections = new Object[] { new System.Windows.Controls.CheckBox(), final };
+                    //imageList.Items.Add(itemSelections);
+                    imageList.Items.Add(final);
+                    imageList.Items.Add(new CheckBox());
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("unknown url caught for single image");
+                }
             }
         }
 
