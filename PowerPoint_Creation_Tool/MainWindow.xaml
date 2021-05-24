@@ -7,6 +7,10 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="169*"/>
+            <ColumnDefinition Width="623*"/>
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height=".6*"/>
             <RowDefinition Height="1*"/>
@@ -15,28 +19,23 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Label Grid.Row="0" Content="Title:" FontWeight="Bold"/>
+        <Label Grid.Row="0" Content="Title:" FontWeight="Bold" Grid.ColumnSpan="2"/>
 
-        <RichTextBox Name="TitleBox" Grid.Row="1" Margin="6,6,6,6">
+        <RichTextBox Name="TitleBox" Grid.Row="1" Margin="6,6,6,6" Grid.ColumnSpan="2">
             <FlowDocument>
-                <Paragraph>
-                    <Bold>Fast cars</Bold>
-                </Paragraph>
+                <Paragraph/>
             </FlowDocument>
         </RichTextBox>
 
-        <Label Grid.Row="2" Content="Text:" FontWeight="Bold"/>
+        <Label Grid.Row="2" Content="Text:" FontWeight="Bold" Grid.ColumnSpan="2"/>
 
-        <RichTextBox Name="TextBox" Grid.Row="3" Margin="6,6,6,6">
+        <RichTextBox Name="TextBox" Grid.Row="3" Margin="6,6,6,6" Grid.ColumnSpan="2">
             <FlowDocument>
-                <Paragraph>
-                    Fast red
-                    <Bold>car</Bold>
-                </Paragraph>
+                <Paragraph/>
             </FlowDocument>
         </RichTextBox>
 
-        <StackPanel Grid.Row="5" Orientation="Horizontal" HorizontalAlignment="right">
+        <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="right" Grid.Column="1">
 
             <Button Name="Photos" Grid.Row="5"
                 Width="150" Margin="6,6,6,6"

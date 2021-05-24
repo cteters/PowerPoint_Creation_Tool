@@ -15,29 +15,10 @@ namespace PowerPointWPF
     /// Interaction logic for ImageSearch.xaml
     /// </summary>
 
-    // strongly typed object for json parsing, not currently utilized
-    public class Thumbnail
-    {
-        public string src { get; set; }
-    }
-
-    // strongly typed object for json parsing, not currently utilized
-    public class CseThumbnail
-    {
-        public string src { get; set; }
-    }
-
-    // strongly typed object for json parsing, not currently utilized
-    public class Pagemap
-    {
-        public List<CseThumbnail> cse_thumbnail { get; set; }
-        public List<Thumbnail> thumbnail { get; set; }
-    }
-
     public partial class ImageSearch : Window
     {
         private string CX = ""; // identifier of the Programmable Search Engine
-        private string APIKEY = ""; // API key
+        private string APIKEY = ""; // Google Search API key
         private string text;
         private List<string> thumbnails;
         private List<string> selected;

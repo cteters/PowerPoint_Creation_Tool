@@ -9,9 +9,6 @@ using System.Windows.Forms;
 using System.Text.RegularExpressions;
 using System.Windows.Documents;
 
-using System.Windows.Markup;
-
-
 
 // solution starting point:
 // https://stackoverflow.com/questions/26372020/how-to-programmatically-create-a-powerpoint-from-a-list-of-images
@@ -54,7 +51,9 @@ namespace PowerPointWPF
                     TitleBox.Document.ContentEnd
                 );
 
-            string convertedText = Regex.Replace(textRange.Text, "\\s+", "+") + Regex.Replace(titleRange.Text, "\\s+", "+");
+            string convertedText = Regex.Replace(titleRange.Text, "\\s+", "+") + Regex.Replace(textRange.Text, "\\s+", "+").TrimEnd('+');
+
+            Console.WriteLine("\n\n Search criteria: " + convertedText + "\n\n");
 
             ImageSearch newWindow = new ImageSearch(convertedText);
             newWindow.ShowDialog();
@@ -79,31 +78,20 @@ namespace PowerPointWPF
                 (TextBox.Document.ContentStart, TextBox.Document.ContentEnd);
             objText.Text = textRange.Text;
 
-
-
-            //System.Xml.XmlReader xmlReader = System.Xml.XmlReader.Create();
-
-            //FlowDocument flowDocument = (FlowDocument)XamlReader.Parse()
-            //RichTextBox rtb = new RichTextBox();
-            //rtb.Document = new System.Windows.Documents.TextRange(TextBox.Document.ContentStart, TextBox.Document.ContentEnd);
-
-            //FlowDocument flowdoc = new FlowDocument(TextBox.Document.Blocks.FirstBlock, TextBox.Document.Blocks.LastBlock);
-
-            //RichTextBox richTextBox;
-            //richTextBox = new RichTextBox
-            //richTextBox.SelectAll();
-            //string rtf = myRichtextBox.Rtf;
-
             int numPics = 0;
             if (selected != null)
             {
                 numPics = selected.Count();
             }
 
+            Console.WriteLine("\n\nSelected Image URLs, \n");
+            Microsoft.Office.Interop.PowerPoint.Shape photo = slide.Shapes[2];
             for (int i = 0; i < numPics && i < 3; i++)
             {
-                slide.Shapes.AddPicture(selected[i], MsoTriState.msoFalse, MsoTriState.msoTrue, ((i + 1) * 200), 300, 175, 175);
+                Console.WriteLine(selected[i] + "\n");
+                slide.Shapes.AddPicture(selected[i], MsoTriState.msoFalse, MsoTriState.msoTrue, (i * 200), 300, photo.Width, photo.Height);
             }
+            Console.WriteLine("\n\n");
         }
 
         private void ExitClick(object sender, RoutedEventArgs e)
